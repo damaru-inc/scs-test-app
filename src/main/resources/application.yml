@@ -1,0 +1,26 @@
+spring:
+  cloud:
+    stream:
+      bindings:
+        output:
+          destination: sensor/temperature/fahrenheit
+          binder: local_solace
+      binders:
+        local_solace:
+          type: solace
+          environment:
+            solace:
+              java:
+                host: tcp://mrrwtxvklyzl3.messaging.solace.cloud:55555
+                msgVpn: msgvpn-rwtxvklyzk9
+                clientUsername: solace-cloud-client
+                clientPassword: 2bv9lctv5kl5k73dgn5o9al8s7
+                connectRetries: -1
+                reconnectRetries: -1
+logging:
+  level:
+    root: INFO
+    com.solacesystems.jcsmp: INFO
+    org.springframework: INFO
+server:
+  port: 8095
