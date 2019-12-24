@@ -2,7 +2,14 @@ spring:
   cloud:
     stream:
       bindings:
-        output:
+        tempBindingInput:
+          destination: TEMPS.Q
+          group: SINK
+          binder: local_solace
+        tempBindingOutput:
+          destination: sensor/temperature/fahrenheit
+          binder: local_solace
+        sensorReadingSupplier-out-0:
           destination: sensor/temperature/fahrenheit
           binder: local_solace
       binders:
@@ -17,10 +24,22 @@ spring:
                 clientPassword: 2bv9lctv5kl5k73dgn5o9al8s7
                 connectRetries: -1
                 reconnectRetries: -1
+      solace:
+        bindings:
+          tempBindingInput:
+            consumer:
+              queueAdditionalSubscriptions: sensor/temperature/>
 logging:
   level:
     root: INFO
+    com.solace: INFO
     com.solacesystems.jcsmp: INFO
     org.springframework: INFO
+    org.springframework.cloud: INFO
 server:
   port: 8095
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"

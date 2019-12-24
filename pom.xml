@@ -16,7 +16,8 @@
 
 	<properties>
 		<java.version>1.8</java.version>
-		<spring-cloud.version>Hoxton.RELEASE</spring-cloud.version>
+		<spring-cloud.version>3.0.1.RELEASE</spring-cloud.version>
+		<spring-cloud-stream.version>3.0.1.RELEASE</spring-cloud-stream.version>
 	</properties>
 
 	<dependencies>
@@ -35,6 +36,7 @@
 		<dependency>
 			<groupId>org.springframework.cloud</groupId>
 			<artifactId>spring-cloud-stream</artifactId>
+			<version>${spring-cloud-stream.version}</version>
 		</dependency>
 
 		<dependency>
@@ -51,10 +53,13 @@
 		<dependency>
 			<groupId>org.springframework.cloud</groupId>
 			<artifactId>spring-cloud-stream-test-support</artifactId>
+			<version>${spring-cloud-stream.version}</version>
 			<scope>test</scope>
 		</dependency>
+
 	</dependencies>
 
+	<!--
 	<dependencyManagement>
 		<dependencies>
 			<dependency>
@@ -66,7 +71,7 @@
 			</dependency>
 		</dependencies>
 	</dependencyManagement>
-
+-->
 	<build>
 		<plugins>
 			<plugin>
