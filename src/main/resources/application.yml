@@ -2,18 +2,32 @@ spring:
   cloud:
     stream:
       bindings:
-        tempBindingInput:
-          destination: TEMPS.Q
+#        tempBindingInput:
+#          destination: TEMPS.Q
+#          group: SINK
+#          binder: local_solace
+#        tempBindingOutput:
+#          destination: sensor/temperature/fahrenheit
+#          binder: local_solace
+        fahrenheitChannelBindingInput:
+          destination: TEMPS.F
+          binder: solace
           group: SINK
-          binder: local_solace
-        tempBindingOutput:
+        fahrenheitChannelBindingOutput:
           destination: sensor/temperature/fahrenheit
-          binder: local_solace
-        sensorReadingSupplier-out-0:
-          destination: sensor/temperature/fahrenheit
-          binder: local_solace
+          binder: solace
+        celsiusChannelBindingInput:
+          destination: TEMPS.C
+          binder: solace
+          group: SINK
+        celsiusChannelBindingOutput:
+          destination: sensor/temperature/celsius
+          binder: solace
+#        sensorReadingSupplier-out-0:
+#          destination: sensor/temperature/fahrenheit
+#          binder: local_solace
       binders:
-        local_solace:
+        solace:
           type: solace
           environment:
             solace:
@@ -26,9 +40,12 @@ spring:
                 reconnectRetries: -1
       solace:
         bindings:
-          tempBindingInput:
+          fahrenheitChannelBindingInput:
             consumer:
-              queueAdditionalSubscriptions: sensor/temperature/>
+              queueAdditionalSubscriptions: sensor/temperature/fahrenheit
+          celsiusChannelBindingInput:
+            consumer:
+              queueAdditionalSubscriptions: sensor/temperature/celsius
 logging:
   level:
     root: INFO
@@ -36,6 +53,7 @@ logging:
     com.solacesystems.jcsmp: INFO
     org.springframework: INFO
     org.springframework.cloud: INFO
+    
 server:
   port: 8095
 management:
