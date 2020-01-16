@@ -1,63 +1,26 @@
-spring:
-  cloud:
-    stream:
-      bindings:
-#        tempBindingInput:
-#          destination: TEMPS.Q
-#          group: SINK
-#          binder: local_solace
-#        tempBindingOutput:
-#          destination: sensor/temperature/fahrenheit
-#          binder: local_solace
-        fahrenheitChannelBindingInput:
-          destination: TEMPS.F
-          binder: solace
-          group: SINK
-        fahrenheitChannelBindingOutput:
-          destination: sensor/temperature/fahrenheit
-          binder: solace
-        celsiusChannelBindingInput:
-          destination: TEMPS.C
-          binder: solace
-          group: SINK
-        celsiusChannelBindingOutput:
-          destination: sensor/temperature/celsius
-          binder: solace
-#        sensorReadingSupplier-out-0:
-#          destination: sensor/temperature/fahrenheit
-#          binder: local_solace
-      binders:
-        solace:
-          type: solace
-          environment:
-            solace:
-              java:
-                host: tcp://mrrwtxvklyzl3.messaging.solace.cloud:55555
-                msgVpn: msgvpn-rwtxvklyzk9
-                clientUsername: solace-cloud-client
-                clientPassword: 2bv9lctv5kl5k73dgn5o9al8s7
-                connectRetries: -1
-                reconnectRetries: -1
-      solace:
-        bindings:
-          fahrenheitChannelBindingInput:
-            consumer:
-              queueAdditionalSubscriptions: sensor/temperature/fahrenheit
-          celsiusChannelBindingInput:
-            consumer:
-              queueAdditionalSubscriptions: sensor/temperature/celsius
-logging:
-  level:
-    root: INFO
-    com.solace: INFO
-    com.solacesystems.jcsmp: INFO
-    org.springframework: INFO
-    org.springframework.cloud: INFO
-    
-server:
-  port: 8095
-management:
-  endpoints:
-    web:
-      exposure:
-        include: "*"
+spring.cloud.stream:
+  function.definition: supplier;consumer;
+  bindings:
+    consumer-in-0:
+      destination: "sensor"
+  solace.bindings.consumer-in-0.consumer:
+    queueAdditionalSubscriptions: "sensor/>"
+solace:
+  java:
+    host: tcp://mrrwtxvklyzl3.messaging.solace.cloud:55555
+    msgVpn: msgvpn-rwtxvklyzk9
+    clientUsername: solace-cloud-client
+    clientPassword: 2bv9lctv5kl5k73dgn5o9al8s7
+    connectRetries: -1
+    reconnectRetries: -1
+logging.level:
+  root: info
+  com.solace: info
+  com.solacesystems.jcsmp: info
+  org.springframework: info
+  org.springframework.cloud: info
+  org.springframework.integration: info
+
+server.port: 8080
+management.endpoints.web.exposure.include: "*"
+

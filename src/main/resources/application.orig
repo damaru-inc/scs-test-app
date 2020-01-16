@@ -1,0 +1,37 @@
+spring:
+  cloud:
+    stream:
+      function.definition: consumer;supplier;
+      bindings:
+        consumer-in-0:
+          destination: sensor-t
+      binders:
+        solace:
+          type: solace
+          environment:
+            solace:
+              java:
+                host: tcp://mrrwtxvklyzl3.messaging.solace.cloud:55555
+                msgVpn: msgvpn-rwtxvklyzk9
+                clientUsername: solace-cloud-client
+                clientPassword: 2bv9lctv5kl5k73dgn5o9al8s7
+                connectRetries: -1
+                reconnectRetries: -1
+logging:
+  level:
+    root: info
+    com.solace: debug
+    com.solacesystems.jcsmp: debug
+    org.springframework: info
+    org.springframework.cloud: warn
+    org.springframework.integration: debug
+
+server:
+  port: 8080
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+
